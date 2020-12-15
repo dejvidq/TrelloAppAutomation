@@ -1,16 +1,20 @@
 import pytest
 from appium.webdriver.webdriver import WebDriver
 
+from config_parser import parse_rd_config
+from rd.page_objects.starting_page import StartingPage
+
 
 @pytest.fixture(autouse=True)
-def driver():
-    desired_caps = {
-        "appPackage": "com.trello",
-        "appActivity": "com.trello.home.HomeActivity",
-        "platformName": "Android",
-        "platformVersion": "9",
-        "udid": "emulator-5554",
-    }
-    driver = WebDriver("http://127.0.0.1:4723/wd/hub", desired_caps)
+def driver(request):
+    config = parse_rd_config(request.config.getoption('--config'))
+    appium_server_url = config.get('appium_server_url')
+    caps = config.get('caps')
+    driver = WebDriver(f"http://{appium_server_url}/wd/hub", caps)
     yield driver
     driver.quit()
+
+
+@pytest.fixture(autouse=True)
+def starting_page(driver):
+    yield StartingPage(driver)

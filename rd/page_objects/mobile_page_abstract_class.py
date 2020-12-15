@@ -2,13 +2,13 @@ from appium.webdriver.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from page_objects.mobile_controls.mobile_control import MobileControl
+from rd.mobile_controls.mobile_control import MobileControl
 
 
 class MobilePageAbstractClass:
 
     def __init__(self, driver: WebDriver):
-        self.driver = driver
+        self._driver = driver
 
     def _get_element(self,
                      mobile_control: MobileControl,
@@ -24,7 +24,7 @@ class MobilePageAbstractClass:
         element = None
         try:
             element = WebDriverWait(
-                driver=self.driver,
+                driver=self._driver,
                 timeout=timeout,
                 poll_frequency=poll_frequency,
                 ignored_exceptions=None
@@ -64,3 +64,16 @@ class MobilePageAbstractClass:
                                attribute: str,
                                ):
         return self._get_element(mobile_control=mobile_control).get_attribute(attribute)
+
+    def _enter_text(self,
+                    mobile_control: MobileControl,
+                    text: str,
+                    press_enter: bool = False,
+                    hide_keyboard: bool = False
+                    ):
+        element = self._get_element(mobile_control=mobile_control)
+        element.clear().send_keys(text)
+        if press_enter:
+            self._driver.press_keycode(66)
+        elif hide_keyboard:
+            self._driver.hide_keyboard()
