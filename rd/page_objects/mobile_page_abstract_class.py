@@ -1,3 +1,4 @@
+from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -9,15 +10,16 @@ class MobilePageAbstractClass:
 
     def __init__(self, driver: WebDriver):
         self._driver = driver
+        self._resource_id_prefix = "com.trello:"
 
     def _get_element(self,
                      mobile_control: MobileControl,
                      timeout=10,
                      poll_frequency=0.5,
-                     expected_condition: object = expected_conditions.visibility_of_element_located
+                     expected_condition: object = expected_conditions.visibility_of_element_located,
+                     locator_strategy: str = MobileBy.ANDROID_UIAUTOMATOR
                      ):
-        locator_strategy = mobile_control.locator_strategy
-        element_selector = mobile_control.element_selector
+        element_selector = mobile_control.get_ui_automator_string(self._resource_id_prefix)
         error_message = f"""After trying for {timeout} second/s with polling every {poll_frequency} second/s, 
                             locator strategy '{str(locator_strategy)}' and expected condition {str(expected_condition)} 
                             failed to find element via element selector '{element_selector}'"""
@@ -39,14 +41,20 @@ class MobilePageAbstractClass:
                               timeout=10,
                               poll_frequency=0.5
                               ):
-        return True if self._get_element(mobile_control=mobile_control, timeout=timeout,
-                                         poll_frequency=poll_frequency) else False
+        if self._get_element(mobile_control=mobile_control,
+                             timeout=timeout,
+                             poll_frequency=poll_frequency
+                             ):
+            return True
+        return False
 
     def _is_element_enabled(self, mobile_control: MobileControl, timeout=10,
                             poll_frequency=0.5):
-        if self._get_element(mobile_control=mobile_control, timeout=timeout,
+        if self._get_element(mobile_control=mobile_control,
+                             timeout=timeout,
                              poll_frequency=poll_frequency,
-                             expected_condition=expected_conditions.element_to_be_clickable):
+                             expected_condition=expected_conditions.element_to_be_clickable
+                             ):
             return True
         return False
 
