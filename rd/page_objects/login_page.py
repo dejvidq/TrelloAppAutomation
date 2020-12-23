@@ -1,6 +1,7 @@
 from appium.webdriver.common.mobileby import MobileBy
 
 from rd.mobile_controls.mobile_control import MobileControl
+from .boards_page import BoardsPage
 from .mobile_page_abstract_class import MobilePageAbstractClass
 from ..mobile_controls.mobile_button_control import MobileButtonControl
 from ..mobile_controls.mobile_edit_field_control import MobileEditFieldControl
@@ -19,3 +20,4 @@ class LoginPage(MobilePageAbstractClass):
         self._enter_text(mobile_control=self._username_field, text=username, press_enter=True)
         self._enter_text(mobile_control=self._password_field, text=password, hide_keyboard=True)
         self._click(self._login_button)
+        return BoardsPage(self._driver)

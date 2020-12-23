@@ -4,6 +4,7 @@ class MobileControl:
                  xpath: str = None,
                  text: str = None,
                  texts: list = None,
+                 description: str = None,
                  class_name: str = None,
                  is_scrollable: bool = False
                  ):
@@ -11,6 +12,7 @@ class MobileControl:
         self._xpath = xpath
         self._text = text
         self._texts = texts
+        self._description = description
         self._class_name = class_name
         self._use_resource_id_prefix = True
         self._is_scrollable = is_scrollable
@@ -27,6 +29,8 @@ class MobileControl:
         elif self._texts:
             selector += '.textMatches("{}")'.format(
                 '|'.join([t for t in self._texts]))
+        if self._description:
+            selector += f'.description("{self._description}")'
         if self._class_name:
             selector += '.className("{}")'.format(self._class_name)
         return selector
