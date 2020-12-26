@@ -1,7 +1,7 @@
 import pytest
 from appium.webdriver.webdriver import WebDriver
 
-from config_parser import parse_rd_config
+from config_parser import parse_rd_config, get_user_from_config
 from rd.page_objects.starting_page import StartingPage
 
 
@@ -18,3 +18,8 @@ def driver(request):
 @pytest.fixture(autouse=True)
 def starting_page(driver):
     yield StartingPage(driver)
+
+
+@pytest.fixture(autouse=True)
+def user(request):
+    return get_user_from_config(request.config.getoption('--config'))

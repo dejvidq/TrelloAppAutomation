@@ -27,3 +27,10 @@ def parse_rd_config(conf_file) -> dict:
         'deviceName': device_name
     }
     return {'appium_server_url': appium_server_url, 'caps': caps}
+
+
+def get_user_from_config(conf_file) -> tuple:
+    config = parse_config(conf_file)
+    username = config.get('User', 'username', fallback=None)
+    password = config.get('User', 'password', fallback=None)
+    return username, password
