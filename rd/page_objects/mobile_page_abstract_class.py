@@ -20,8 +20,8 @@ class MobilePageAbstractClass:
                      locator_strategy: str = MobileBy.ANDROID_UIAUTOMATOR
                      ):
         element_selector = mobile_control.get_ui_automator_string(self._resource_id_prefix)
-        error_message = f"""After trying for {timeout} second/s with polling every {poll_frequency} second/s, 
-                            locator strategy '{str(locator_strategy)}' and expected condition {str(expected_condition)} 
+        error_message = f"""After trying for {timeout} second/s with polling every {poll_frequency} second/s,
+                            locator strategy '{str(locator_strategy)}' and expected condition {str(expected_condition)}
                             failed to find element via element selector '{element_selector}'"""
         element = None
         try:

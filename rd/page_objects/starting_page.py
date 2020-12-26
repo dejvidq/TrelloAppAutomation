@@ -12,3 +12,6 @@ class StartingPage(MobilePageAbstractClass):
     def go_to_login(self):
         self._click(self._login_button)
         return LoginPage(self._driver)
+
+    def is_user_logged_out(self):
+        return self._is_element_displayed(mobile_control=self._login_button)

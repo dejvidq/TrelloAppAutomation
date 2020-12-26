@@ -1,6 +1,3 @@
-from appium.webdriver.common.mobileby import MobileBy
-
-from rd.mobile_controls.mobile_control import MobileControl
 from .boards_page import BoardsPage
 from .mobile_page_abstract_class import MobilePageAbstractClass
 from ..mobile_controls.mobile_button_control import MobileButtonControl

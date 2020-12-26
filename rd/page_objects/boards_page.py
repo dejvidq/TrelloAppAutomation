@@ -26,5 +26,3 @@ class BoardsPage(MobilePageAbstractClass):
         self.open_drawer()
         self._drawer_segment.open_settings()
         return SettingsPage(self._driver)
-
-

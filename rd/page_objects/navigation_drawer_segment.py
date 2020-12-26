@@ -7,7 +7,7 @@ class NavigationDrawerSegment(MobilePageAbstractClass):
 
     def __init__(self, driver):
         super().__init__(driver)
-        self._avatar = MobileControl(resource_id="d/avatar_view")
+        self._avatar = MobileControl(resource_id="id/avatar_view")
         self._boards_button = MobileTextViewControl(resource_id="id/title", text="Boards")
         self._home_button = MobileTextViewControl(resource_id="id/title", text="Home")
         self._my_cards_button = MobileTextViewControl(resource_id="id/title", text="My Cards")

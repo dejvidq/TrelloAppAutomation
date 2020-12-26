@@ -6,7 +6,8 @@ class MobileControl:
                  texts: list = None,
                  description: str = None,
                  class_name: str = None,
-                 is_scrollable: bool = False
+                 is_scrollable: bool = False,
+                 use_resource_id_prefix: bool = True,
                  ):
         self._resource_id = resource_id
         self._xpath = xpath
@@ -14,7 +15,7 @@ class MobileControl:
         self._texts = texts
         self._description = description
         self._class_name = class_name
-        self._use_resource_id_prefix = True
+        self._use_resource_id_prefix = use_resource_id_prefix
         self._is_scrollable = is_scrollable
 
     def get_ui_automator_string(self, resource_id_prefix):
@@ -33,4 +34,6 @@ class MobileControl:
             selector += f'.description("{self._description}")'
         if self._class_name:
             selector += '.className("{}")'.format(self._class_name)
+        if self._is_scrollable:
+            selector = f'new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView({selector})'
         return selector

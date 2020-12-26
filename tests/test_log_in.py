@@ -14,4 +14,5 @@ class TestLogInLogOut:
         login_page = starting_page.go_to_login()
         boards_page = login_page.log_in_user(username=username, password=password)
         settings_page = boards_page.open_settings()
-        settings_page.log_out()
+        starting_page = settings_page.log_out()
+        assert starting_page.is_user_logged_out()
