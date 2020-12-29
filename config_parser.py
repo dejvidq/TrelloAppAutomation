@@ -34,3 +34,10 @@ def get_user_from_config(conf_file) -> tuple:
     username = config.get('User', 'username', fallback=None)
     password = config.get('User', 'password', fallback=None)
     return username, password
+
+
+def get_api_key_token(conf_file):
+    config = parse_config(conf_file)
+    key = config.get("API", "key", fallback=None)
+    token = config.get("API", "token", fallback=None)
+    return key, token

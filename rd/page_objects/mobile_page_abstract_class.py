@@ -85,3 +85,6 @@ class MobilePageAbstractClass:
             self._driver.press_keycode(66)
         elif hide_keyboard:
             self._driver.hide_keyboard()
+
+    def _get_text(self, mobile_control: MobileControl) -> str:
+        return self._get_element(mobile_control=mobile_control).text
