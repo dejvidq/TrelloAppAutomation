@@ -11,3 +11,8 @@ class BoardPage(MobilePageAbstractClass):
     def is_board_created(self, board_name: str) -> bool:
         self._board_name.text = board_name
         return self._is_element_displayed(mobile_control=self._board_name)
+
+    def go_back_to_main_boards_page(self):
+        from .main_page import MainPage
+        self._driver.back()
+        return MainPage(self._driver)

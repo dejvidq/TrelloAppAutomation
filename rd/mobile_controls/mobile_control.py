@@ -20,6 +20,14 @@ class MobileControl:
         self._is_scrollable = is_scrollable
         self._parent = parent
 
+    @property
+    def text(self) -> str:
+        return self._text
+
+    @text.setter
+    def text(self, text: str) -> None:
+        self._text = text
+
     def get_ui_automator_string(self, resource_id_prefix, child_string=None):
         selector = "new UiSelector()"
         if self._resource_id:

@@ -37,6 +37,10 @@ class MainPage(MobilePageAbstractClass):
                                                      use_resource_id_prefix=False
                                                      )
         self._create_board = MobileButtonControl(resource_id="id/create_board")
+        self._board_control = MobileTextViewControl(resource_id="id/board_name",
+                                                    parent=MobileControl(
+                                                        resource_id="id/board_row_view"
+                                                    ))
 
     def is_logged_in(self) -> bool:
         return self._is_element_displayed(mobile_control=self._page_title) and self._is_element_displayed(
@@ -62,3 +66,7 @@ class MainPage(MobilePageAbstractClass):
                 self._click(self._public_board_text_view)
         self._click(self._create_board)
         return BoardPage(self._driver)
+
+    def is_board_visible(self, board_name: str):
+        self._board_control.text = board_name
+        return self._is_element_displayed(self._board_control)

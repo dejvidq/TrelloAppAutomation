@@ -15,7 +15,6 @@ class API:
 
     def get_board(self, board_name):
         boards = self.get_all_boards()
-        print(boards)
         for board in boards:
             if board['name'] == board_name:
                 return board
