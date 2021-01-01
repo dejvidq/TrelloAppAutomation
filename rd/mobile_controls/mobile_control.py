@@ -28,7 +28,7 @@ class MobileControl:
     def text(self, text: str) -> None:
         self._text = text
 
-    def get_ui_automator_string(self, resource_id_prefix, child_string=None):
+    def get_ui_automator_string(self, resource_id_prefix) -> str:
         selector = "new UiSelector()"
         if self._resource_id:
             if self._use_resource_id_prefix:

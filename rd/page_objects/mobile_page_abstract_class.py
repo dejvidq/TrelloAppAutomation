@@ -1,3 +1,6 @@
+from typing import Optional
+
+from appium.webdriver import WebElement
 from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions
@@ -18,7 +21,7 @@ class MobilePageAbstractClass:
                      poll_frequency=0.5,
                      expected_condition: object = expected_conditions.visibility_of_element_located,
                      locator_strategy: str = MobileBy.ANDROID_UIAUTOMATOR
-                     ):
+                     ) -> Optional[WebElement]:
         element_selector = mobile_control.get_ui_automator_string(self._resource_id_prefix)
         error_message = f"""After trying for {timeout} second/s with polling every {poll_frequency} second/s,
                             locator strategy '{str(locator_strategy)}' and expected condition {str(expected_condition)}
@@ -40,7 +43,7 @@ class MobilePageAbstractClass:
                               mobile_control: MobileControl,
                               timeout=10,
                               poll_frequency=0.5
-                              ):
+                              ) -> bool:
         if self._get_element(mobile_control=mobile_control,
                              timeout=timeout,
                              poll_frequency=poll_frequency
@@ -49,7 +52,7 @@ class MobilePageAbstractClass:
         return False
 
     def _is_element_enabled(self, mobile_control: MobileControl, timeout=10,
-                            poll_frequency=0.5):
+                            poll_frequency=0.5) -> bool:
         if self._get_element(mobile_control=mobile_control,
                              timeout=timeout,
                              poll_frequency=poll_frequency,
@@ -59,19 +62,19 @@ class MobilePageAbstractClass:
         return False
 
     def _wait_for_enable(self, mobile_control: MobileControl, timeout=10,
-                         poll_frequency=0.5):
+                         poll_frequency=0.5) -> Optional[WebElement]:
         return self._get_element(mobile_control=mobile_control, timeout=timeout,
                                  poll_frequency=poll_frequency,
                                  expected_condition=expected_conditions.element_to_be_clickable)
 
-    def _click(self, mobile_control: MobileControl, timeout=4):
+    def _click(self, mobile_control: MobileControl, timeout=4) -> None:
         self._wait_for_enable(mobile_control=mobile_control, timeout=timeout).click()
 
     def _get_element_attribute(self,
                                mobile_control: MobileControl,
                                attribute: str,
                                ):
-        return self._get_element(mobile_control=mobile_control).get_attribute(attribute)
+        return self._get_element(mobile_control=mobile_control).get_attribute(name=attribute)
 
     def _enter_text(self,
                     mobile_control: MobileControl,
@@ -82,7 +85,7 @@ class MobilePageAbstractClass:
         element = self._get_element(mobile_control=mobile_control)
         element.clear().send_keys(text)
         if press_enter:
-            self._driver.press_keycode(66)
+            self._driver.press_keycode(keycode=66)
         elif hide_keyboard:
             self._driver.hide_keyboard()
 

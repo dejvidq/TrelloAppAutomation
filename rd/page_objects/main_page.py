@@ -12,7 +12,7 @@ from ..mobile_controls.mobile_text_view_control import MobileTextViewControl
 class MainPage(MobilePageAbstractClass):
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver=driver)
         self._page_title = MobileTextViewControl(text="Boards")
         self._toolbar_control = MobileControl(resource_id="id/toolbar")
         self._drawer_button = MobileImageButtonControl(description="Open Drawer")
@@ -36,6 +36,11 @@ class MainPage(MobilePageAbstractClass):
                                                      parent=self._visibility_parent,
                                                      use_resource_id_prefix=False
                                                      )
+        self._team_board_text_view = MobileControl(resource_id="id/text1",
+                                                   text="Public",
+                                                   parent=self._visibility_parent,
+                                                   use_resource_id_prefix=False
+                                                   )
         self._create_board = MobileButtonControl(resource_id="id/create_board")
         self._board_control = MobileTextViewControl(resource_id="id/board_name",
                                                     parent=MobileControl(
@@ -46,27 +51,29 @@ class MainPage(MobilePageAbstractClass):
         return self._is_element_displayed(mobile_control=self._page_title) and self._is_element_displayed(
             mobile_control=self._toolbar_control)
 
-    def open_drawer(self):
+    def open_drawer(self) -> None:
         self._click(mobile_control=self._drawer_button)
 
-    def open_settings(self):
+    def open_settings(self) -> SettingsPage:
         self.open_drawer()
         self._drawer_segment.open_settings()
-        return SettingsPage(self._driver)
+        return SettingsPage(driver=self._driver)
 
-    def add_board(self, board_name: str, visibility: str = "Private"):
-        self._click(self._add_button)
-        self._click(self._add_board)
+    def add_board(self, board_name: str, visibility: str = "Private") -> BoardPage:
+        self._click(mobile_control=self._add_button)
+        self._click(mobile_control=self._add_board)
         self._enter_text(mobile_control=self._board_name_edit_field, text=board_name, hide_keyboard=True)
         if self._get_text(mobile_control=self._selected_visibility) != visibility:
-            self._click(self._visibility_spinner)
+            self._click(mobile_control=self._visibility_spinner)
             if visibility == "Private":
-                self._click(self._private_board_text_view)
-            else:
-                self._click(self._public_board_text_view)
-        self._click(self._create_board)
-        return BoardPage(self._driver)
+                self._click(mobile_control=self._private_board_text_view)
+            elif visibility == "Public":
+                self._click(mobile_control=self._public_board_text_view)
+            elif visibility == "Team":
+                self._click(mobile_control=self._team_board_text_view)
+        self._click(mobile_control=self._create_board)
+        return BoardPage(driver=self._driver)
 
-    def is_board_visible(self, board_name: str):
+    def is_board_visible(self, board_name: str) -> bool:
         self._board_control.text = board_name
         return self._is_element_displayed(self._board_control)

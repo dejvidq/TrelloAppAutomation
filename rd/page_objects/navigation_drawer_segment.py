@@ -6,7 +6,7 @@ from ..mobile_controls.mobile_text_view_control import MobileTextViewControl
 class NavigationDrawerSegment(MobilePageAbstractClass):
 
     def __init__(self, driver):
-        super().__init__(driver)
+        super().__init__(driver=driver)
         self._avatar = MobileControl(resource_id="id/avatar_view")
         self._boards_button = MobileTextViewControl(resource_id="id/title", text="Boards")
         self._home_button = MobileTextViewControl(resource_id="id/title", text="Home")
