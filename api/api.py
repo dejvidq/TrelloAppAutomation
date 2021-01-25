@@ -30,3 +30,9 @@ class API:
         boards = self.get_all_boards()
         for board in boards:
             self.delete_board(board_name=board['name'])
+
+    def create_board(self, board_name: str) -> dict:
+        url = self.base_url.format(f"/boards/")
+        url += f"&name={board_name}"
+        resp = requests.post(url=url)
+        return resp.json()

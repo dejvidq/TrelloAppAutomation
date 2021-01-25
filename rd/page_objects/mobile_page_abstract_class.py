@@ -51,6 +51,17 @@ class MobilePageAbstractClass:
             return True
         return False
 
+    def _wait_for_element(self,
+                          mobile_control: MobileControl,
+                          timeout=20,
+                          poll_frequency=0.5
+                          ) -> None:
+        if not self._get_element(mobile_control=mobile_control,
+                                 timeout=timeout,
+                                 poll_frequency=poll_frequency
+                                 ):
+            raise Exception(f"Element {mobile_control} not found")
+
     def _is_element_enabled(self, mobile_control: MobileControl, timeout=10,
                             poll_frequency=0.5) -> bool:
         if self._get_element(mobile_control=mobile_control,

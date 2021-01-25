@@ -26,3 +26,7 @@ class TestBoards:
             assert board_page.is_board_created(board_name=board_name)
             main_page = board_page.go_back_to_main_boards_page()
             assert main_page.is_board_visible(board_name=board_name)
+
+    def test_delete_board(self, create_board):
+        board_name = create_board
+        print(board_name)

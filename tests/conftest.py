@@ -1,3 +1,6 @@
+import random
+import string
+
 import pytest
 from appium.webdriver.webdriver import WebDriver
 
@@ -16,7 +19,7 @@ def driver(request) -> WebDriver:
     driver.quit()
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()#autouse=True)
 def starting_page(driver) -> StartingPage:
     yield StartingPage(driver=driver)
 
@@ -37,3 +40,10 @@ def api(request) -> API:
 def delete_all_boards_after_test(api):
     yield
     api.delete_all_boards()
+
+
+@pytest.fixture
+def create_board(api):
+    board_name = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(10))
+    api.create_board(board_name=board_name)
+    yield board_name
