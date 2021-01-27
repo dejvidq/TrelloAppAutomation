@@ -27,6 +27,10 @@ class TestBoards:
             main_page = board_page.go_back_to_main_boards_page()
             assert main_page.is_board_visible(board_name=board_name)
 
-    def test_delete_board(self, create_board):
+    def test_delete_board(self, create_board, starting_page, user):
+        username, password = user
         board_name = create_board
-        print(board_name)
+        login_page = starting_page.go_to_login()
+        main_page = login_page.log_in_user(username=username, password=password)
+        board_page = main_page.open_board(board_name=board_name)
+        assert board_page.close_board()

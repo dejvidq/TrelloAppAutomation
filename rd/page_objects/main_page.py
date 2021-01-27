@@ -46,6 +46,11 @@ class MainPage(MobilePageAbstractClass):
                                                     parent=MobileControl(
                                                         resource_id="id/board_row_view"
                                                     ))
+        self.__initialize()
+
+    def __initialize(self):
+        if not self._is_element_displayed(mobile_control=self._page_title, timeout=30):
+            raise Exception(f"Mobile control {self._page_title} not found")
 
     def is_logged_in(self) -> bool:
         return self._is_element_displayed(mobile_control=self._page_title) and self._is_element_displayed(
@@ -77,3 +82,8 @@ class MainPage(MobilePageAbstractClass):
     def is_board_visible(self, board_name: str) -> bool:
         self._board_control.text = board_name
         return self._is_element_displayed(self._board_control)
+
+    def open_board(self, board_name: str) -> BoardPage:
+        self._board_control.text = board_name
+        self._click(mobile_control=self._board_control)
+        return BoardPage(driver=self._driver)

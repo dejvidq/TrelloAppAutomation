@@ -55,7 +55,7 @@ class LoginPage(MobilePageAbstractClass):
                 self._click(mobile_control=self._webview_continue_button)
                 self._enter_text(mobile_control=self._webview_password_field,
                                  text=password,
-                                 hide_keyboard=True
+                                 press_enter=True
                                  )
         return MainPage(driver=self._driver)
 
